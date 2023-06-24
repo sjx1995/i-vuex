@@ -5,8 +5,8 @@ const store = createStore({
     count: 0,
   },
   mutations: {
-    add(state) {
-      state.count++;
+    add(state, val) {
+      state.count += val;
     },
   },
   actions: {
