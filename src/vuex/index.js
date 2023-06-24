@@ -32,16 +32,19 @@ class Store {
       // payload由调用时传入
       this._mutations[key] = (payload) => {
         // 将方法的this重新绑定到当前实例上，store中定义mutations时需要两个参数：state和payload
-        fn.call(_this, _this.state, payload);
+        return fn.call(_this, _this.state, payload);
       };
     });
 
     // 将store中的actions添加到实例上，和mutations的逻辑类似
-    // todo 需要用promise重写，实现异步
     this._actions = Object.create(null);
     forEachObj(options.actions, (fn, key) => {
       this._actions[key] = (payload) => {
-        fn.call(_this, _this, payload);
+        const res = fn.call(_this, _this, payload);
+        if (res && typeof res.then === "function") {
+          return Promise.resolve(res);
+        }
+        return res;
       };
     });
   }
@@ -54,13 +57,13 @@ class Store {
   // 外部可能会结构后直接调用commit，this需要始终指向实例(外部作用域)，使用箭头函数绑定实例
   commit = (name, payload) => {
     // 在store实例上面查找_mutations并触发对应的操作，将payload作为参加传入
-    this._mutations[name](payload);
+    return this._mutations[name](payload);
   };
 
   // 外部调用dispatch，传入actions名称和可选的payload
   // 使用箭头函数绑定this
   dispatch = (name, payload) => {
-    this._actions[name](payload);
+    return Promise.resolve(this._actions[name](payload));
   };
 
   // use方法会调用，第一个参数默认是createApp()的vue对象

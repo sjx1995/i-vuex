@@ -16,7 +16,9 @@ const handleCommit = () => {
 };
 
 const handleDispatch = () => {
-  store.dispatch("addAfter1s", 3);
+  store.dispatch("addAfter1s", 3).then(() => {
+    alert("异步执行完成");
+  });
 };
 </script>
 

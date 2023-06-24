@@ -7,13 +7,17 @@ const store = createStore({
   mutations: {
     add(state, val) {
       state.count += val;
+      return state.count;
     },
   },
   actions: {
     addAfter1s({ commit }, payload) {
-      setTimeout(() => {
-        commit("add", 3);
-      }, 1000);
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          commit("add", 3);
+          resolve();
+        }, 1000);
+      });
     },
   },
   getters: {
