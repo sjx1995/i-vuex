@@ -10,9 +10,9 @@ const store = createStore({
     },
   },
   actions: {
-    add({ commit }) {
+    addAfter1s({ commit }, payload) {
       setTimeout(() => {
-        commit("add");
+        commit("add", 3);
       }, 1000);
     },
   },

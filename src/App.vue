@@ -14,6 +14,10 @@ const handleEditState = () => {
 const handleCommit = () => {
   store.commit("add", 2);
 };
+
+const handleDispatch = () => {
+  store.dispatch("addAfter1s", 3);
+};
 </script>
 
 <template>
@@ -23,6 +27,7 @@ const handleCommit = () => {
     <h3>getter double count: {{ doubleCount }}</h3>
     <button @click="handleEditState">直接修改state(不合法), +1</button>
     <button @click="handleCommit">commit同步修改, +2</button>
+    <button @click="handleDispatch">dispatch异步修改, +3</button>
   </div>
 </template>
 
