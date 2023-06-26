@@ -3,6 +3,7 @@ import { forEachObj } from "./utils";
 class Module {
   constructor(rawModule) {
     this.state = rawModule.state;
+    this.namespaced = rawModule.namespaced || false
     this._rawModule = rawModule;
     this._children = Object.create(null);
   }
@@ -35,6 +36,18 @@ class Module {
 
   forEachChild(fn) {
     forEachObj(this._children, fn);
+  }
+
+  getNamespaced(path, root) {
+    let namespace = ''
+    if (path.length !== 0) {
+      path.reduce((module, key) => {
+        const child = module.getChild(key)
+        namespace += (child.namespaced ? `${key}/` : '')
+        return child
+      }, root)
+    }
+    return namespace
   }
 }
 

@@ -16,21 +16,26 @@ function installModule(store, module, rootState, path) {
     parentState[path[path.length - 1]] = module.state;
   }
 
+  // 通过路径拼接namespaced的前缀
+  let namespacePrefix = ''
+  namespacePrefix = module.getNamespaced(path, store._module.root)
+  console.log('当前path和namespaced', path, namespacePrefix)
+
   // 遍历查找并注册当前模块的所有getters，因为getter会获取最新的state，所以通过path获取最新的state
   module.forEachGetter((handler, getterName) => {
     // 获取最新的state，module中的state是_rawModule的state，不具备响应式
-    registerGetters(store, getterName, handler, path);
+    registerGetters(store, namespacePrefix + getterName, handler, path);
   });
 
   // 遍历查找并注册当前模块的所有mutations
   module.forEachMutation((handler, mutationName) => {
     // 获取最新的state，module中的state是_rawModule的state，不具备响应式
-    registerMutations(store, mutationName, handler, path);
+    registerMutations(store, namespacePrefix + mutationName, handler, path);
   });
 
   // 遍历查找并注册当前模块的所有actions
   module.forEachAction((handler, actionName) => {
-    registerActions(store, actionName, handler);
+    registerActions(store, namespacePrefix + actionName, handler);
   });
 
   // 递归的遍历子模块，安装子模块的mutation、action、getter

@@ -27,6 +27,7 @@ const store = createStore({
   },
   modules: {
     aModule: {
+      namespaced: true,
       state: {
         count: 1,
       },

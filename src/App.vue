@@ -8,6 +8,7 @@ const count = computed(() => store.state.count);
 const doubleCount = computed(() => store.getters.doubleCount);
 const aModuleCount = computed(() => store.state.aModule.count);
 const bModuleCount = computed(() => store.state.bModule.count);
+const cModuleCount = computed(() => store.state.aModule.cModule.count);
 
 const handleEditState = () => {
   store.state.count += 1;
@@ -22,19 +23,31 @@ const handleDispatch = () => {
     alert("异步执行完成");
   });
 };
+
+const handleCommitAModule = () => {
+  store.commit('aModule/add', 2)
+}
 </script>
 
 <template>
   <div>
     <h1>vue3 + vuex demo</h1>
+    <h3 v-pre>
+      store中数据嵌套:{ root: { a: { namespaced: true, c: {...}, b: {...} } } }
+    </h3>
     <h3>count(state): {{ count }}</h3>
     <h3>double count(getters): {{ doubleCount }}</h3>
     <h3>a-module count: {{ aModuleCount }}</h3>
     <h3>b-module count: {{ bModuleCount }}</h3>
-    <h3></h3>
-    <button @click="handleEditState">直接修改state(不合法), +1</button>
-    <button @click="handleCommit">commit同步修改, +2</button>
-    <button @click="handleDispatch">dispatch异步修改, +3</button>
+    <h3>c-module count: {{ cModuleCount }}</h3>
+    <hr/>
+    <button @click="handleEditState">+1 （直接修改state，不合法）</button>
+    <br/>
+    <button @click="handleCommit">+2 （commit同步修改根模块的count，b-module也会被修改）</button>
+    <br/>
+    <button @click="handleDispatch">+3  （dispatch异步修改根模块count，b-module也会被修改）</button>
+    <br/>
+    <button @click="handleCommitAModule">+2 （commit同步修改A-Module命名空间下的count，c-module也会被修改） </button>
   </div>
 </template>
 

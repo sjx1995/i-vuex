@@ -38,6 +38,7 @@ class Store {
     return this._state.data;
   }
 
+  // 注意使用箭头函数绑定this到当前Store类，因为外部可能使用结构之后调用
   commit = (type, payload) => {
     const mutation = this._mutations[type] || [];
     this._withCommit(() => {
@@ -50,6 +51,9 @@ class Store {
     return Promise.all(action.map((fn) => fn(payload)));
   };
 
+  // 先保存初始状态等待执行结束再恢复初始状态，而不是直接赋值true等待结束后置为false
+  // 是为了避免commit中套用commit的情况
+  // 如果采用后一种方法，内部commit执行完后this._committing被置为false，外部commit如果此时修改state就会报错
   _withCommit(fn) {
     const originCommitting = this._committing;
     this._committing = true;
