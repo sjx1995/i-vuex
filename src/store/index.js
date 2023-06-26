@@ -7,7 +7,6 @@ const store = createStore({
   mutations: {
     add(state, val) {
       state.count += val;
-      return state.count;
     },
   },
   actions: {
@@ -23,6 +22,45 @@ const store = createStore({
   getters: {
     doubleCount(state) {
       return state.count * 2;
+    },
+  },
+  modules: {
+    aModule: {
+      state: {
+        count: 1,
+      },
+      mutations: {
+        add(state, val) {
+          state.count += val;
+        },
+      },
+      modules: {
+        cModule: {
+          state: {
+            count: 3,
+          },
+          getters: {
+            tripleCount(state) {
+              return state.count * 3;
+            },
+          },
+          mutations: {
+            add(state, val) {
+              state.count += val;
+            },
+          },
+        },
+      },
+    },
+    bModule: {
+      state: {
+        count: 2,
+      },
+      mutations: {
+        add(state, val) {
+          state.count += val;
+        },
+      },
     },
   },
 });
