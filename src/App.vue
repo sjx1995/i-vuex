@@ -44,6 +44,21 @@ const handleUnsubscribe = () => {
     unsubscribeFn = null
   }
 }
+
+const replaceState = () => {
+  store.replaceState({
+    count: 0,
+    aModule: {
+      count: 1,
+      cModule: {
+        count: 3
+      }
+    },
+    bModule: {
+      count: 2
+    }
+  })
+}
 </script>
 
 <template>
@@ -74,12 +89,15 @@ const handleUnsubscribe = () => {
     <button @click="handleCommitAModule">
       +2 （commit同步修改A-Module命名空间下的count，c-module也会被修改）
     </button>
+    <br />
     <button @click="handleSubscribe">
       订阅mutation状态
     </button>
     <button @click="handleUnsubscribe">
       取消订阅mutation状态
     </button>
+    <br/>
+    <button @click="replaceState">重置state</button>
   </div>
 </template>
 

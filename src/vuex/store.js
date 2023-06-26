@@ -92,6 +92,14 @@ class Store {
     fn();
     this._committing = originCommitting;
   }
+
+  // replaceState api：替换state
+  // 因为没有通过commit，所以要使用_withCommit包裹一下
+  replaceState(newState) {
+    this._withCommit(() => {
+      this._state.data = newState;
+    });
+  }
 }
 
 export { Store };
