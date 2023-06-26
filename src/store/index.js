@@ -1,6 +1,7 @@
 import { createStore } from "../vuex/index";
 
 const store = createStore({
+  strict: true,
   state: {
     count: 0,
   },

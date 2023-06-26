@@ -27,8 +27,8 @@ const handleDispatch = () => {
 <template>
   <div>
     <h1>vue3 + vuex demo</h1>
-    <h3>count: {{ count }}</h3>
-    <h3>getter double count: {{ doubleCount }}</h3>
+    <h3>count(state): {{ count }}</h3>
+    <h3>double count(getters): {{ doubleCount }}</h3>
     <h3>a-module count: {{ aModuleCount }}</h3>
     <h3>b-module count: {{ bModuleCount }}</h3>
     <h3></h3>
