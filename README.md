@@ -1,7 +1,19 @@
-# Vue 3 + Vite
+# i-vuex
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+实现一个vuex4
 
-## Recommended IDE Setup
+> [演示地址](https://sjx1995.github.io/i-vuex/)
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+> [vuex4 api doc](https://vuex.vuejs.org/api/)
+
+## 实现的功能
+
+- [x] state
+- [x] getters
+- [x] commit mutations
+- [x] dispatch actions
+- [x] strict mode
+- [x] namespaced
+- [x] plugins
+- [x] subscribe / unsubscribe
+- [x] replaceState
