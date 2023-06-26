@@ -7,9 +7,11 @@ class Store {
     console.log("store实例数据", options);
 
     this.strict = options.strict || false;
+    const plugins = options.plugins || []
 
     // 判断修改state是不是发生在commit中
     this._committing = false;
+    this._subscribers = [];
     this._wrapperGetters = Object.create(null);
     this._mutations = Object.create(null);
     this._actions = Object.create(null);
@@ -26,6 +28,9 @@ class Store {
     resetStoreState(this, this._module.root.state);
 
     console.log("store", this);
+
+    // 注册插件，只在初始化时调用一次，传得给插件当前的store实例
+    plugins.forEach(plugin => plugin(this))
   }
 
   // use方法会调用，第一个参数默认是createApp()的vue对象

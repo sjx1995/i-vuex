@@ -1,7 +1,12 @@
 import { createStore } from "../vuex/index";
 
+const customPlugin = (store) => {
+  console.log("插件运行", store);
+};
+
 const store = createStore({
   strict: true,
+  plugins: [customPlugin],
   state: {
     count: 0,
   },
