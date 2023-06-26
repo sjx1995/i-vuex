@@ -9,6 +9,7 @@ const doubleCount = computed(() => store.getters.doubleCount);
 const aModuleCount = computed(() => store.state.aModule.count);
 const bModuleCount = computed(() => store.state.bModule.count);
 const cModuleCount = computed(() => store.state.aModule.cModule.count);
+const tripleCount = computed(() => store.getters['aModule/tripleCount'])
 
 const handleEditState = () => {
   store.state.count += 1;
@@ -31,15 +32,20 @@ const handleCommitAModule = () => {
 
 <template>
   <div>
-    <h1>vue3 + vuex demo</h1>
+    <h1>
+      vue3 + vuex demo
+    </h1>
+    <a href="https://github.com/sjx1995/i-vuex">View on Github</a>
+    <hr>
     <h3 v-pre>
-      store中数据嵌套:{ root: { a: { namespaced: true, c: {...}, b: {...} } } }
+      store中数据嵌套: { root: { a: { namespaced: true, c: {...}, b: {...} } } }
     </h3>
-    <h3>count(state): {{ count }}</h3>
-    <h3>double count(getters): {{ doubleCount }}</h3>
-    <h3>a-module count: {{ aModuleCount }}</h3>
-    <h3>b-module count: {{ bModuleCount }}</h3>
-    <h3>c-module count: {{ cModuleCount }}</h3>
+    <h3>count (state): {{ count }}</h3>
+    <h3>double count (getters): {{ doubleCount }}</h3>
+    <h3>a-module count (state): {{ aModuleCount }}</h3>
+    <h3>b-module count (state): {{ bModuleCount }}</h3>
+    <h3>c-module count (state): {{ cModuleCount }}</h3>
+    <h3>c-module triple count (getters): {{ tripleCount }}</h3>
     <hr/>
     <button @click="handleEditState">+1 （直接修改state，不合法）</button>
     <br/>
