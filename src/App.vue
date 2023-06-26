@@ -28,6 +28,22 @@ const handleDispatch = () => {
 const handleCommitAModule = () => {
   store.commit("aModule/add", 2);
 };
+
+const subscribeFn = (mutation, state) => {
+  console.log('订阅函数触发', mutation, state)
+}
+
+let unsubscribeFn = null
+const handleSubscribe = () => {
+  unsubscribeFn = store.subscribe(subscribeFn)
+}
+
+const handleUnsubscribe = () => {
+  if (unsubscribeFn != null) {
+    unsubscribeFn()
+    unsubscribeFn = null
+  }
+}
 </script>
 
 <template>
@@ -57,6 +73,12 @@ const handleCommitAModule = () => {
     <br />
     <button @click="handleCommitAModule">
       +2 （commit同步修改A-Module命名空间下的count，c-module也会被修改）
+    </button>
+    <button @click="handleSubscribe">
+      订阅mutation状态
+    </button>
+    <button @click="handleUnsubscribe">
+      取消订阅mutation状态
     </button>
   </div>
 </template>

@@ -7,7 +7,7 @@ class Store {
     console.log("store实例数据", options);
 
     this.strict = options.strict || false;
-    const plugins = options.plugins || []
+    const plugins = options.plugins || [];
 
     // 判断修改state是不是发生在commit中
     this._committing = false;
@@ -30,7 +30,7 @@ class Store {
     console.log("store", this);
 
     // 注册插件，只在初始化时调用一次，传得给插件当前的store实例
-    plugins.forEach(plugin => plugin(this))
+    plugins.forEach((plugin) => plugin(this));
   }
 
   // use方法会调用，第一个参数默认是createApp()的vue对象
@@ -49,11 +49,38 @@ class Store {
     this._withCommit(() => {
       mutation.forEach((fn) => fn(payload));
     });
+    // 发布订阅的函数，传入两个参数：
+    // 第一个参数：{type: string; payload: any}；第二个参数：state
+    this._subscribers.forEach((fn) => fn({ type, payload }, this.state));
   };
 
   dispatch = (type, payload) => {
     const action = this._actions[type] || [];
     return Promise.all(action.map((fn) => fn(payload)));
+  };
+
+  // 订阅store的mutation，每次commit执行时触发
+  // 接收两个参数：第一个参数是订阅函数，第二个参数是个可选的{prepend: boolean}，如果为true添加到订阅列表头部，否则添加到订阅列表尾部
+  // 返回一个函数，用来取消订阅
+  subscribe = (fn, options) => {
+    if (this._subscribers.indexOf(fn) < 0) {
+      console.log("订阅成功");
+      if (options && options.prepend) {
+        this._subscribers.unshift(fn);
+      } else {
+        this._subscribers.push(fn);
+      }
+    } else {
+      console.log("这个subscribe已经被订阅");
+    }
+
+    return () => {
+      const i = this._subscribers.indexOf(fn);
+      if (i > -1) {
+        this._subscribers.splice(i, 1);
+        console.log("取消订阅");
+      }
+    };
   };
 
   // 先保存初始状态等待执行结束再恢复初始状态，而不是直接赋值true等待结束后置为false
