@@ -1,8 +1,10 @@
 <script setup>
 import { computed } from "vue";
 import { useStore } from "./vuex/index";
+import { saveStateData } from './store/data-persistence'
 
 const store = useStore("custom-store");
+store.subscribe(saveStateData)
 
 const count = computed(() => store.state.count);
 const doubleCount = computed(() => store.getters.doubleCount);
@@ -46,7 +48,7 @@ const handleUnsubscribe = () => {
 }
 
 const replaceState = () => {
-  store.replaceState({
+  const originState = {
     count: 0,
     aModule: {
       count: 1,
@@ -57,7 +59,9 @@ const replaceState = () => {
     bModule: {
       count: 2
     }
-  })
+  }
+  store.replaceState(originState)
+  saveStateData(null, originState)
 }
 </script>
 

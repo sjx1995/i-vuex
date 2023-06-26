@@ -1,4 +1,5 @@
 import { createStore } from "../vuex/index";
+import { initStateData } from "./data-persistence";
 
 const customPlugin = (store) => {
   console.log("插件运行", store);
@@ -6,7 +7,7 @@ const customPlugin = (store) => {
 
 const store = createStore({
   strict: true,
-  plugins: [customPlugin],
+  plugins: [initStateData, customPlugin],
   state: {
     count: 0,
   },
